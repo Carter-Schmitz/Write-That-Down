@@ -10,3 +10,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
 let notes = require("./db/db.json");
+
+// Routes
+app.get("/notes", function (req, res) {
+    res.sendFile(path.join(__dirname, "public/notes.html"));
+  });
+  
+  // Display notes
+  app.get("/api/notes", function (req, res) {
+    fs.readFile("db/db.json", "utf8", function (err, data) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      res.json(notes);
+    });
+  });
