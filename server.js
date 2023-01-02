@@ -9,11 +9,11 @@ let PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
-let notes = require("./db/db.json");
+let notes = require("./Develop/db/db.json");
 
 // Routes
 app.get("/notes", function (req, res) {
-    res.sendFile(path.join(__dirname, "public/notes.html"));
+    res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
 });
 
 // Display notes
@@ -56,4 +56,4 @@ app.post("/api/notes", function (req, res) {
 // Catch all error route
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "public/index.html"));
-  });
+});
