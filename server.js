@@ -18,7 +18,7 @@ app.get("/notes", function (req, res) {
 
 // Display notes
 app.get("/api/notes", function (req, res) {
-    fs.readFile("db/db.json", "utf8", function (err, data) {
+    fs.readFile("./Develop/db/db.json", "utf8", function (err, data) {
         if (err) {
             console.log(err);
             return;
@@ -45,7 +45,7 @@ app.post("/api/notes", function (req, res) {
     notes.push(newNote);
     const stringifyNote = JSON.stringify(notes);
     res.json(notes);
-    fs.writeFile("db/db.json", stringifyNote, (err) => {
+    fs.writeFile("./Develop/db/db.json", stringifyNote, (err) => {
         if (err) console.log(err);
         else {
             console.log("Note successfully saved to db.json");
@@ -53,7 +53,28 @@ app.post("/api/notes", function (req, res) {
     });
 });
 
+// Delete note
+app.delete("/api/notes/:id", function (req, res) {
+    let noteID = req.params.id;
+    fs.readFile("db/db.json", "utf8", function (err, data) {
+        let updatedNotes = JSON.parse(data).filter((note) => {
+            console.log("note.id", note.id);
+            console.log("noteID", noteID);
+            return note.id !== noteID;
+        });
+        notes = updatedNotes;
+        const stringifyNote = JSON.stringify(updatedNotes);
+        fs.writeFile("db/db.json", stringifyNote, (err) => {
+            if (err) console.log(err);
+            else {
+                console.log("Note successfully deleted from db.json");
+            }
+        });
+        res.json(stringifyNote);
+    });
+});
+
 // Catch all error route
 app.get("*", function (req, res) {
-    res.sendFile(path.join(__dirname, "public/index.html"));
+    res.sendFile(path.join(__dirname, "./Develop/public/index.html"));
 });
