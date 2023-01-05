@@ -8,12 +8,14 @@ let PORT = process.env.PORT || 3000;
 // Set up Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static("public"));
+app.use(express.static("./Develop/public"));
 let notes = require("./Develop/db/db.json");
 
 // Routes
 app.get("/notes", function (req, res) {
+    console.log(path.join(__dirname, "./Develop/public/notes.html"));
     res.sendFile(path.join(__dirname, "./Develop/public/notes.html"));
+    
 });
 
 // Display notes
